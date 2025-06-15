@@ -5,9 +5,11 @@
 typedef struct nodo nodo;
 
 struct nodo {
-	nodo *norte, *sul, *leste, *oeste;
-	char tipo[9];                           // se for 0-9 é um "porto", se não, é um caminho. '*' não são contabilizados como "nodos".
-	int num;
+	nodo* norte, * sul, * leste, * oeste;   // ponteiros para cada direção
+	char tipo[2];                           // se for 0-9 é um "porto", se for '.', é um caminho. '*' são contabilizados como "invalidos".
+	unsigned int visitado : 1;				// bitfield de 1 bit para ser usado como flag, caso ja tenha sido visitado ou não  
+	int num_porto;							// se for um porto, qual deles
+	int num;								// teste
 };
 
 nodo** funcMatriz(int, int);
@@ -76,14 +78,33 @@ void printMatriz(int linhas, int colunas, nodo** matriz) {
 	for (int l = 0; l < linhas; l++) {
 		for (int k = 0; k < colunas; k++) {
 			printf("|%04d %s|", matriz[l][k].num, matriz[l][k].tipo);
-			if (matriz[l][k].norte)
+			if (strcmp(matriz[l][k].tipo, "p") == 1)
+				printf(" porto %d", matriz[l][k].num_porto);
+
+			if (matriz[l][k].norte) {
 				printf(" norte-> |%04d %s|", matriz[l][k].norte->num, matriz[l][k].norte->tipo);
-			if (matriz[l][k].sul)
+				if (strcmp(matriz[l][k].norte->tipo, "p") == 0)
+					printf(" porto %d", matriz[l][k].norte->num_porto);
+			}
+
+			if (matriz[l][k].sul) {
 				printf(" sul-> |%04d %s|", matriz[l][k].sul->num, matriz[l][k].sul->tipo);
-			if (matriz[l][k].leste)
+				if (strcmp(matriz[l][k].sul->tipo, "p") == 0)
+					printf(" porto %d", matriz[l][k].sul->num_porto);
+			}
+
+			if (matriz[l][k].leste) {
 				printf(" leste-> |%04d %s|", matriz[l][k].leste->num, matriz[l][k].leste->tipo);
-			if (matriz[l][k].oeste)
+				if (strcmp(matriz[l][k].leste->tipo, "p") == 0)
+					printf(" porto %d", matriz[l][k].leste->num_porto);
+			}
+
+			if (matriz[l][k].oeste) {
 				printf(" oeste-> |%04d %s|", matriz[l][k].oeste->num, matriz[l][k].oeste->tipo);
+				if (strcmp(matriz[l][k].oeste->tipo, "p") == 0)
+					printf(" porto %d", matriz[l][k].oeste->num_porto);
+			}
+
 			printf("\n");
 		}
 		printf("\n");
@@ -112,6 +133,7 @@ void insereMatriz(int linhas, int colunas, nodo** matriz, FILE* file) {
 				break;
 			default:
 				strcpy(matriz[l][k].tipo, "p");
+				matriz[l][k].num_porto = temp - '0';
 				break;
 			}
 		}
