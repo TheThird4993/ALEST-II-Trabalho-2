@@ -143,7 +143,7 @@ void insereMatriz(int linhas, int colunas, nodo** matriz, FILE* file, int pos[2]
 				matriz[l][k].tipo = 'i';
 				break;
 			default:
-				matriz[l][k].tipo == 'p';
+				matriz[l][k].tipo = 'p';
 				matriz[l][k].num_porto = temp - '0';
 				pos[0][(temp - '0') - 1] = l;
 				pos[1][(temp - '0') - 1] = k;
