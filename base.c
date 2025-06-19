@@ -5,9 +5,9 @@
 typedef struct nodo nodo;
 
 struct nodo {
-	nodo* norte, * sul, * leste, * oeste;   // ponteiros para cada direÁ„o
-	char tipo;                           // se for 0-9 È um "porto", se for '.', È um caminho. '*' s„o contabilizados como "invalidos".
-	unsigned int visitado : 1;				// bitfield de 1 bit para ser usado como flag, caso ja tenha sido visitado ou n„o  
+	nodo* norte, * sul, * leste, * oeste;   // ponteiros para cada dire√ß√£o
+	char tipo;                           // se for 0-9 √© um "porto", se for '.', √© um caminho. '*' s√£o contabilizados como "invalidos".
+	unsigned int visitado : 1;				// bitfield de 1 bit para ser usado como flag, caso ja tenha sido visitado ou n√£o  
 	int num_porto;							// se for um porto, qual deles
 	int num;								// teste
 };
@@ -84,7 +84,7 @@ void freeMatriz(int linhas, int colunas, nodo** matriz) {
 	free(matriz);
 }
 
-void printMatriz(int linhas, int colunas, nodo** matriz) {				// funÁ„o para testes
+void printMatriz(int linhas, int colunas, nodo** matriz) {				// fun√ß√£o para testes
 	printf("\n");
 	for (int l = 0; l < linhas; l++) {
 		for (int k = 0; k < colunas; k++) {
@@ -129,7 +129,7 @@ void insereMatriz(int linhas, int colunas, nodo** matriz, FILE* file, int pos[2]
 		for (int k = 0; k < colunas; k++) {
 			fscanf(file, " %c", &temp);
 			matriz[l][k].num   = i++;
-			//-------------------------- inicializaÁ„o dos ponteiros
+			//-------------------------- inicializa√ß√£o dos ponteiros
 			matriz[l][k].norte = NULL;
 			matriz[l][k].sul   = NULL;
 			matriz[l][k].leste = NULL;
