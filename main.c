@@ -50,6 +50,7 @@ int main() {
     int num;
 
     do{
+        printf("escolha o caso 0 a 5: ");
         scanf("%d", &num);
     }while(num < 0 || num > 5);
     
