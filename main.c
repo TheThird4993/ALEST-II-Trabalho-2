@@ -4,6 +4,9 @@
 #include <string.h>
 #include <time.h>
 
+#define false 0;
+#define true 1;
+
 typedef struct nodo nodo;
 typedef struct queueNode queueNode;
 typedef struct queue queue;
@@ -35,7 +38,7 @@ nodo** funcMatriz(int, int);
 void freeMatriz(int, int, nodo**);
 void printMatriz(int, int, nodo**);
 nodo* insereMatriz(int, int, nodo**, FILE*);
-void BFS(queue*, nodo**, int, bool*, nodo*, int, int);
+void BFS(queue*, nodo**, int, _Bool*, nodo*, int, int);
 
 int main() {
     int lin, col;
@@ -80,7 +83,7 @@ int main() {
     //-------------------------------------------
 
     int tamanho = lin * col;
-    bool* jaVisitado = (bool*)calloc(tamanho, sizeof(bool));
+    _Bool* jaVisitado = (_Bool*)calloc(tamanho, sizeof(_Bool));
     queue* fila = createQueue();
     enqueueNode(fila, nodoInicial);
 
@@ -242,7 +245,7 @@ void clearQueue(queue* fila) {
     fila->rear = NULL;
 }
 
-void BFS(queue* fila, nodo** mapa, int porto, bool* javisitado, nodo* inicio, int lin, int col) {
+void BFS(queue* fila, nodo** mapa, int porto, _Bool* javisitado, nodo* inicio, int lin, int col) {
     int totalCombustivel = 0;
     int tamanho = lin * col;
     int portoAtual = porto;
@@ -258,7 +261,7 @@ void BFS(queue* fila, nodo** mapa, int porto, bool* javisitado, nodo* inicio, in
         enqueueNode(fila, inicio);
         javisitado[inicio->num] = true;
 
-        bool achouProximoPorto = false;
+        _Bool achouProximoPorto = false;
 
         while (fila->front != NULL) {
             nodo* atual = fila->front->nodo;
