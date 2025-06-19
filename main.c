@@ -97,7 +97,7 @@ int main() {
     fim = clock(); // Marca o fim
     tempo_gasto = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
 
-    printf("Tempo de execucao: %.02f segundos\n", tempo_gasto);
+    printf("Tempo de execucao: %.03f segundos\n", tempo_gasto);
 
     freeMatriz(lin, col, matriz);
     fclose(file);
@@ -259,7 +259,7 @@ void BFS(queue* fila, nodo** mapa, int porto, _Bool* javisitado, nodo* inicio, i
     int portoAtual = porto;
     int* distTo = (int*)calloc(tamanho, sizeof(int));
 
-    while (portoAtual < 9) {
+    while (1) {
         // Reset estrutura de visitação e fila
         for (int i = 0; i < tamanho; i++) {
             javisitado[i] = false;
@@ -270,19 +270,20 @@ void BFS(queue* fila, nodo** mapa, int porto, _Bool* javisitado, nodo* inicio, i
         javisitado[inicio->num] = true;
 
         _Bool achouProximoPorto = false;
+        int proximoPorto = (portoAtual == 9) ? 1 : portoAtual + 1;
 
         while (fila->front != NULL) {
             nodo* atual = fila->front->nodo;
             dequeueNode(fila);
 
-            if (atual->porto == portoAtual + 1) {
+            if (atual->porto == proximoPorto) {
                 totalCombustivel += distTo[atual->num];
                 printf("Porto %d encontrado com combustivel %d\n", atual->porto, distTo[atual->num]);
                 printf("Total de combustivel ate agora: %d\n", totalCombustivel);
 
                 // Prepara para buscar o próximo porto
                 inicio = atual;
-                portoAtual++;
+                portoAtual = proximoPorto;
                 achouProximoPorto = true;
                 break;
             }
@@ -314,6 +315,7 @@ void BFS(queue* fila, nodo** mapa, int porto, _Bool* javisitado, nodo* inicio, i
             portoAtual++;
             // O inicio não muda, pois tentamos do último porto alcançado
         }
+        if (portoAtual == 1 && achouProximoPorto) break;
     }
     printf("Total de combustivel necessario: %d\n", totalCombustivel);
     free(distTo);
