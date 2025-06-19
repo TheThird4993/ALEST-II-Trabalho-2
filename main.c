@@ -44,7 +44,8 @@ int main() {
     int lin, col;
     nodo** matriz;
     FILE* file;
-
+    clock_t inicio, fim;
+    double tempo_gasto;
     char destino[32] = "casos/case";
     int num;
 
@@ -52,6 +53,7 @@ int main() {
         scanf("%d", &num);
     }while(num < 0 || num > 5);
     
+    inicio = clock();
 
     size_t len = strlen(destino);
     destino[len] = num + '0';
@@ -65,14 +67,16 @@ int main() {
         return 1;
     }
 
-    //-------------------------------------------  para ler o arquivo
+    /*
+    //-------------------------------------------  para imprimir o arquivo
     int c;
     while ((c = fgetc(file)) != EOF) {
         printf("%c", c);
     }
     printf("\n");
-    rewind(file); // para retornar o ponteiro de leitura ao inicio do arquivo
+    rewind(file);                               // para retornar o ponteiro de leitura ao inicio do arquivo
     //-------------------------------------------
+    */
 
     fscanf(file, "%d %d", &lin, &col);
 
@@ -90,6 +94,10 @@ int main() {
     BFS(fila, matriz, nodoInicial->porto, jaVisitado, nodoInicial, lin, col);
 
     //printMatriz(lin, col, matriz);
+    fim = clock(); // Marca o fim
+    tempo_gasto = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
+
+    printf("Tempo de execucao: %.02f segundos\n", tempo_gasto);
 
     freeMatriz(lin, col, matriz);
     fclose(file);
